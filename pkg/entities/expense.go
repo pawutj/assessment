@@ -1,6 +1,6 @@
 package entities
 
-type Expenses struct {
+type Expense struct {
 	Title  string
 	Amount float64
 	Note   string

@@ -6,21 +6,21 @@ import (
 )
 
 type ExpenseService struct {
-	ExpensesRepository repositories.IExpensesRepository
+	ExpenseRepository repositories.IExpenseRepository
 }
 
-func (s ExpenseService) CreateExpenses(e entities.Expenses) (entities.Expenses, error) {
-	result, err := s.ExpensesRepository.CreateExpenses(e)
+func (s ExpenseService) CreateExpense(e entities.Expense) (entities.Expense, error) {
+	result, err := s.ExpenseRepository.CreateExpense(e)
 	if err != nil {
-		return entities.Expenses{}, err
+		return entities.Expense{}, err
 	}
 	return result, nil
 }
 
-func (s ExpenseService) GetExpenses(id string) (entities.Expenses, error) {
-	result, err := s.ExpensesRepository.GetExpenses(id)
+func (s ExpenseService) GetExpense(id string) (entities.Expense, error) {
+	result, err := s.ExpenseRepository.GetExpense(id)
 	if err != nil {
-		return entities.Expenses{}, err
+		return entities.Expense{}, err
 	}
 	return result, nil
 }
