@@ -5,8 +5,8 @@ import (
 )
 
 type IExpensesRepository interface {
-	CreateExpenses(expenses entities.Expenses) entities.Expenses
-	UpdateExpenses(expenses entities.Expenses) entities.Expenses
-	GetExpenses(id string) entities.Expenses
-	DeleteExpenses(id string) entities.Expenses
+	CreateExpenses(expenses entities.Expenses) (entities.Expenses, error)
+	UpdateExpenses(expenses entities.Expenses) (entities.Expenses, error)
+	GetExpenses(id string) (entities.Expenses, error)
+	DeleteExpenses(id string) (entities.Expenses, error)
 }
