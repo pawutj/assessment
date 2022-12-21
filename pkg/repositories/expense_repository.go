@@ -24,13 +24,13 @@ func (r ExpenseRepository) CreateExpense(expenses entities.Expense) (entities.Ex
 }
 
 func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
-	stmt, err := r.DB.Prepare("SELECT id, name, age FROM users where id=$1")
+	stmt, err := r.DB.Prepare("SELECT id, title, amount , note FROM EXPENSE where id=$1")
 
 	if err != nil {
 		log.Fatal("can'tprepare query one row statment", err)
 	}
 
-	rowId := 1
+	rowId := id
 	row := stmt.QueryRow(rowId)
 
 	var _id, amount float64
