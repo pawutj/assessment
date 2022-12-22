@@ -18,9 +18,10 @@ services:
       - POSTGRES_PASSWORD=root
       - POSTGRES_DB=go-example-db
     ports:
-      - "5432:5432"
+      - "5433:5433"
     expose:
-      - 5432
+      - 5433
     volumes:
       - ./pkg/db:/docker-entrypoint-initdb.d
+    command: -p 5433
 #docker-compose -f docker-compose-test.yml up --exit-code-from test_sandbox
