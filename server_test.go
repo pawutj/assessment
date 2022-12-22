@@ -1,3 +1,6 @@
+//go:build !repo_test
+// +build !repo_test
+
 package main
 
 import (
@@ -41,7 +44,7 @@ func TestGetUserByID(t *testing.T) {
 
 	assert.Nil(t, err)
 	assert.Equal(t, http.StatusOK, res.StatusCode)
-	assert.Equal(t, e.Title, "Title")
+	assert.Equal(t, e.Title, "SomeTitle")
 
 }
 

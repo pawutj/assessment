@@ -1,3 +1,6 @@
+//go:build repo_test
+// +build repo_test
+
 package repositories
 
 import (
