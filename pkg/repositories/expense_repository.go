@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"log"
 
-	_ "github.com/lib/pq"
+	"github.com/lib/pq"
+
 	"github.com/pawutj/assessment/pkg/entities"
 )
 
@@ -24,7 +25,7 @@ func (r ExpenseRepository) CreateExpense(expenses entities.Expense) (entities.Ex
 }
 
 func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
-	stmt, err := r.DB.Prepare("SELECT id, title, amount , note FROM EXPENSE where id=$1")
+	stmt, err := r.DB.Prepare("SELECT id, title, amount , note , tags FROM EXPENSE where id=$1")
 
 	if err != nil {
 		log.Fatal("can'tprepare query one row statment", err)
@@ -33,14 +34,17 @@ func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
 	rowId := id
 	row := stmt.QueryRow(rowId)
 
-	var _id, amount float64
+	var _id int
+	var amount float64
 	var title, note string
+	var tags []string
 
-	err = row.Scan(&_id, &title, &amount, &note)
+	err = row.Scan(&_id, &title, &amount, &note, pq.Array(&tags))
+
 	if err != nil {
 		log.Fatal("can't Scan row into variables", err)
 	}
 
-	return entities.Expense{Title: title, Amount: amount, Note: note}, nil
+	return entities.Expense{Title: title, Amount: amount, Note: note, Tags: tags}, nil
 
 }
