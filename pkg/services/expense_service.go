@@ -1,9 +1,14 @@
-package service
+package services
 
 import (
 	"github.com/pawutj/assessment/pkg/entities"
 	"github.com/pawutj/assessment/pkg/repositories"
 )
+
+type IExpenseService interface {
+	CreateExpense(e entities.Expense) (entities.Expense, error)
+	GetExpense(id string) (entities.Expense, error)
+}
 
 type ExpenseService struct {
 	ExpenseRepository repositories.IExpenseRepository
