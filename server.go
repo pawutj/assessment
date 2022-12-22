@@ -14,7 +14,7 @@ import (
 
 func main() {
 	fmt.Println("Please use server.go for main file")
-	fmt.Println("start at port:", os.Getenv("PORT"))
+	fmt.Println("start at port:" + os.Getenv("PORT"))
 
 	expenseController := controllers.ExpenseController{
 		ExpenseService: services.ExpenseService{
@@ -25,5 +25,5 @@ func main() {
 	e := echo.New()
 	e.GET("/expenses/:id", expenseController.GetExpenseController)
 
-	log.Fatal(e.Start(":2565"))
+	log.Fatal(e.Start(":" + os.Getenv("PORT")))
 }

@@ -2,14 +2,16 @@ package db
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
+	"os"
 
 	_ "github.com/lib/pq"
 )
 
 func ConnectDB() *sql.DB {
 
-	url := "postgres://root:root@db:5433/go-example-db?sslmode=disable"
+	url := fmt.Sprintf("postgres://root:root@db:%s/go-example-db?sslmode=disable", os.Getenv("DB_PORT"))
 	db, err := sql.Open("postgres", url)
 
 	if err != nil {

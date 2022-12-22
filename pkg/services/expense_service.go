@@ -16,6 +16,7 @@ type ExpenseService struct {
 
 func (s ExpenseService) CreateExpense(e entities.Expense) (entities.Expense, error) {
 	result, err := s.ExpenseRepository.CreateExpense(e)
+
 	if err != nil {
 		return entities.Expense{}, err
 	}

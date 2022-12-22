@@ -4,7 +4,7 @@ import (
 	"testing"
 
 	"github.com/pawutj/assessment/pkg/entities"
-	"github.com/pawutj/assessment/pkg/service"
+	"github.com/pawutj/assessment/pkg/services"
 )
 
 type StubExpensesRepository struct {
@@ -24,7 +24,7 @@ func TestCreateShouldReturnExpense(t *testing.T) {
 	want := entities.Expense{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}}
 
 	repository := StubExpensesRepository{want}
-	ExpenseService := service.ExpenseService{repository}
+	ExpenseService := services.ExpenseService{repository}
 
 	result, err := ExpenseService.CreateExpense(give)
 
@@ -44,7 +44,7 @@ func TestGetShouldReturnExpense(t *testing.T) {
 	want := entities.Expense{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}}
 
 	repository := StubExpensesRepository{want}
-	ExpenseService := service.ExpenseService{repository}
+	ExpenseService := services.ExpenseService{repository}
 
 	result, err := ExpenseService.GetExpense(give)
 
