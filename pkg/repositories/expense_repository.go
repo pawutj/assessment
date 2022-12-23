@@ -20,8 +20,22 @@ type ExpenseRepository struct {
 	DB *sql.DB
 }
 
-func (r ExpenseRepository) CreateExpense(expenses entities.Expense) (entities.Expense, error) {
-	return entities.Expense{}, nil
+func (r ExpenseRepository) CreateExpense(expense entities.Expense) (entities.Expense, error) {
+
+	row := r.DB.QueryRow("INSERT INTO EXPENSE (title, amount,note,tags) values ($1, $2 , $3, $4)  RETURNING id,title, amount,note,tags", expense.Title, expense.Amount, expense.Note, pq.Array(expense.Tags))
+
+	var id int
+	var title string
+	var amount float64
+	var note string
+	var tags []string
+	err := row.Scan(&id, &title, &amount, &note, pq.Array(&tags))
+
+	if err != nil {
+		return entities.Expense{}, err
+	}
+
+	return entities.Expense{ID: id, Title: title, Amount: amount, Note: note, Tags: tags}, nil
 }
 
 func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {

@@ -12,7 +12,7 @@ import (
 func ConnectDB() *sql.DB {
 
 	url := fmt.Sprintf("postgres://root:root@db:%s/go-example-db?sslmode=disable", os.Getenv("DB_PORT"))
-	fmt.Printf("Connecting to: " + url)
+	fmt.Printf("Connecting to: " + url + "\n")
 	db, err := sql.Open("postgres", url)
 
 	if err != nil {

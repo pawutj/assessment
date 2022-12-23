@@ -44,6 +44,22 @@ func (suite *ExpenseRepositorySuite) TestGetExpense() {
 
 }
 
+func (suite *ExpenseRepositorySuite) TestCreateExpense() {
+
+	give := entities.Expense{Title: "SomeTitle", Amount: 20.0, Note: "SomeNote", Tags: []string{"tags1"}}
+	want := entities.Expense{Title: "SomeTitle", Amount: 20.0, Note: "SomeNote", Tags: []string{"tags1"}}
+
+	result, err := suite.repository.CreateExpense(give)
+
+	assert.Nil(suite.T(), err)
+	assert.Greater(suite.T(), 1, want.ID)
+	assert.Equal(suite.T(), result.Title, want.Title)
+	assert.Equal(suite.T(), result.Amount, want.Amount)
+	assert.Equal(suite.T(), result.Note, want.Note)
+	assert.Equal(suite.T(), result.Tags, want.Tags)
+
+}
+
 func TestExpenseRepositorySuite(t *testing.T) {
 	suite.Run(t, new(ExpenseRepositorySuite))
 }
