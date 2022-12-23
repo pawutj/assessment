@@ -24,6 +24,7 @@ func main() {
 
 	e := echo.New()
 	e.GET("/expenses/:id", expenseController.GetExpenseController)
+	e.POST("/expenses", expenseController.CreateExpenseController)
 
 	log.Fatal(e.Start(":" + os.Getenv("PORT")))
 }

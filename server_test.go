@@ -4,6 +4,7 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"io"
 	"net/http"
@@ -35,7 +36,7 @@ func request(method, url string, body io.Reader) *Response {
 	return &Response{res, err}
 }
 
-func TestGetUserByID(t *testing.T) {
+func TestGetExpenseByID(t *testing.T) {
 
 	var e entities.Expense
 	res := request(http.MethodGet, uri("expenses", strconv.Itoa(1)), nil)
@@ -46,6 +47,26 @@ func TestGetUserByID(t *testing.T) {
 	assert.Equal(t, http.StatusOK, res.StatusCode)
 	assert.Equal(t, e.Title, "SomeTitle")
 
+}
+
+func TestPostExpense(t *testing.T) {
+
+	body := bytes.NewBufferString(`{
+		"title": "SomeTitle",
+		"amount": 20.0,
+		"Note":"SomeNote",
+		"tags": ["tag1"]
+	}`)
+
+	var e entities.Expense
+
+	res := request(http.MethodPost, uri("expenses"), body)
+	err := res.Decode(&e)
+
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+	assert.Equal(t, e.Title, "SomeTitle")
+	assert.Greater(t, e.ID, 1)
 }
 
 type Response struct {
