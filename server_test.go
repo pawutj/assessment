@@ -79,7 +79,26 @@ func TestPostExpense(t *testing.T) {
 	assert.Nil(t, err)
 	assert.Equal(t, http.StatusOK, res.StatusCode)
 	assert.Equal(t, e.Title, "SomeTitle")
-	assert.Greater(t, e.ID, 1)
+
+}
+
+func TestUpdateExpense(t *testing.T) {
+
+	body := bytes.NewBufferString(`{
+		"title": "SomeTitleUpdate",
+		"amount": 20.0,
+		"Note":"SomeNote",
+		"tags": ["tag1"]
+	}`)
+
+	var e entities.Expense
+
+	res := request(http.MethodPut, uri("expenses", strconv.Itoa(2)), body)
+	err := res.Decode(&e)
+
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+	assert.Equal(t, e.Title, "SomeTitleUpdate")
 }
 
 type Response struct {

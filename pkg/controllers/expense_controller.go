@@ -27,7 +27,7 @@ func (c ExpenseController) CreateExpenseController(context echo.Context) error {
 	if err != nil {
 		return context.JSON(http.StatusInternalServerError, Err{Message: err.Error()})
 	}
-	// result := entities.Expense{Title: "Title"}
+
 	return context.JSON(http.StatusOK, result)
 }
 
@@ -35,12 +35,24 @@ func (c ExpenseController) GetExpenseController(context echo.Context) error {
 	id := context.Param("id")
 
 	result, _ := c.ExpenseService.GetExpense(id)
-	// result := entities.Expense{Title: "Title"}
+
 	return context.JSON(http.StatusOK, result)
 }
 
 func (c ExpenseController) GetExpensesController(context echo.Context) error {
 	result, _ := c.ExpenseService.GetExpenses()
-	// result := entities.Expense{Title: "Title"}
+
+	return context.JSON(http.StatusOK, result)
+}
+
+func (c ExpenseController) UpdateExpenseController(context echo.Context) error {
+	id := context.Param("id")
+	e := entities.Expense{}
+	err := context.Bind(&e)
+	if err != nil {
+		return context.JSON(http.StatusBadRequest, Err{Message: err.Error()})
+	}
+	result, _ := c.ExpenseService.UpdateExpense(id, e)
+
 	return context.JSON(http.StatusOK, result)
 }
