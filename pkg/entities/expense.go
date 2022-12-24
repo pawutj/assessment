@@ -1,7 +1,7 @@
 package entities
 
 type Expense struct {
-	ID     int      `json:"id"`
+	ID     string   `json:"id"`
 	Title  string   `json:"title"`
 	Amount float64  `json:"amount"`
 	Note   string   `json:"note"`

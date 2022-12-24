@@ -11,8 +11,8 @@ import (
 
 type IExpenseRepository interface {
 	CreateExpense(expense entities.Expense) (entities.Expense, error)
-	UpdateExpense(id int, expense entities.Expense) (entities.Expense, error)
-	GetExpense(id int) (entities.Expense, error)
+	UpdateExpense(id string, expense entities.Expense) (entities.Expense, error)
+	GetExpense(id string) (entities.Expense, error)
 	GetExpenses() ([]entities.Expense, error)
 	// DeleteExpenses(id string) (entities.Expense, error)
 }
@@ -25,7 +25,7 @@ func (r ExpenseRepository) CreateExpense(expense entities.Expense) (entities.Exp
 
 	row := r.DB.QueryRow("INSERT INTO EXPENSE (title, amount,note,tags) values ($1, $2 , $3, $4)  RETURNING id,title, amount,note,tags", expense.Title, expense.Amount, expense.Note, pq.Array(expense.Tags))
 
-	var id int
+	var id string
 	var title string
 	var amount float64
 	var note string
@@ -49,7 +49,7 @@ func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
 	rowId := id
 	row := stmt.QueryRow(rowId)
 
-	var _id int
+	var _id string
 	var amount float64
 	var title, note string
 	var tags []string
@@ -89,7 +89,7 @@ func (r ExpenseRepository) GetExpenses() ([]entities.Expense, error) {
 	return expenses, nil
 }
 
-func (r ExpenseRepository) UpdateExpense(id int, e entities.Expense) (entities.Expense, error) {
+func (r ExpenseRepository) UpdateExpense(id string, e entities.Expense) (entities.Expense, error) {
 	stmt, err := r.DB.Prepare("UPDATE EXPENSE SET title = $2, amount = $3 , note = $4, tags = $5 WHERE id = $1  RETURNING id,title, amount,note,tags")
 	if err != nil {
 		log.Fatal("can'tprepare query one row statment", err.Error())

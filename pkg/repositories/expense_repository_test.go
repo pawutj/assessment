@@ -60,7 +60,7 @@ func (suite *ExpenseRepositorySuite) TestCreateExpense() {
 }
 
 func (suite *ExpenseRepositorySuite) TestUpdateExpense() {
-	id := 2
+	id := "2"
 	give := entities.Expense{Title: "SomeTitle1", Amount: 20.0, Note: "SomeNote", Tags: []string{"tags1"}}
 	want := entities.Expense{Title: "SomeTitle1", Amount: 20.0, Note: "SomeNote", Tags: []string{"tags1"}}
 
