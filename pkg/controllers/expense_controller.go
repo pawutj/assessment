@@ -37,3 +37,9 @@ func (c ExpenseController) GetExpenseController(context echo.Context) error {
 	// result := entities.Expense{Title: "Title"}
 	return context.JSON(http.StatusOK, result)
 }
+
+func (c ExpenseController) GetExpensesController(context echo.Context) error {
+	result, _ := c.ExpenseService.GetExpenses()
+	// result := entities.Expense{Title: "Title"}
+	return context.JSON(http.StatusOK, result)
+}

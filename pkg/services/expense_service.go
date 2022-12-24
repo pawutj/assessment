@@ -8,6 +8,7 @@ import (
 type IExpenseService interface {
 	CreateExpense(e entities.Expense) (entities.Expense, error)
 	GetExpense(id string) (entities.Expense, error)
+	GetExpenses() ([]entities.Expense, error)
 }
 
 type ExpenseService struct {
@@ -27,6 +28,14 @@ func (s ExpenseService) GetExpense(id string) (entities.Expense, error) {
 	result, err := s.ExpenseRepository.GetExpense(id)
 	if err != nil {
 		return entities.Expense{}, err
+	}
+	return result, nil
+}
+
+func (s ExpenseService) GetExpenses() ([]entities.Expense, error) {
+	result, err := s.ExpenseRepository.GetExpenses()
+	if err != nil {
+		return []entities.Expense{}, err
 	}
 	return result, nil
 }

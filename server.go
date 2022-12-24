@@ -23,6 +23,7 @@ func main() {
 	}
 
 	e := echo.New()
+	e.GET("/expenses", expenseController.GetExpensesController)
 	e.GET("/expenses/:id", expenseController.GetExpenseController)
 	e.POST("/expenses", expenseController.CreateExpenseController)
 

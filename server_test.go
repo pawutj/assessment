@@ -49,6 +49,19 @@ func TestGetExpenseByID(t *testing.T) {
 
 }
 
+func TestGetAllExpense(t *testing.T) {
+
+	var es []entities.Expense
+	res := request(http.MethodGet, uri("expenses"), nil)
+	// res := request(http.MethodGet, uri("expenses", "1"), nil)
+	err := res.Decode(&es)
+
+	assert.Nil(t, err)
+	assert.Equal(t, http.StatusOK, res.StatusCode)
+	assert.Greater(t, len(es), 1)
+
+}
+
 func TestPostExpense(t *testing.T) {
 
 	body := bytes.NewBufferString(`{

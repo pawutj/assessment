@@ -13,6 +13,7 @@ type IExpenseRepository interface {
 	CreateExpense(expenses entities.Expense) (entities.Expense, error)
 	// UpdateExpenses(expenses entities.Expense) (entities.Expense, error)
 	GetExpense(id string) (entities.Expense, error)
+	GetExpenses() ([]entities.Expense, error)
 	// DeleteExpenses(id string) (entities.Expense, error)
 }
 

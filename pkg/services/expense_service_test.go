@@ -8,7 +8,8 @@ import (
 )
 
 type StubExpensesRepository struct {
-	Expense entities.Expense
+	Expense  entities.Expense
+	Expenses []entities.Expense
 }
 
 func (s StubExpensesRepository) CreateExpense(e entities.Expense) (entities.Expense, error) {
@@ -19,11 +20,15 @@ func (s StubExpensesRepository) GetExpense(id string) (entities.Expense, error) 
 	return s.Expense, nil
 }
 
+func (s StubExpensesRepository) GetExpenses() ([]entities.Expense, error) {
+	return s.Expenses, nil
+}
+
 func TestCreateShouldReturnExpense(t *testing.T) {
 	give := entities.Expense{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}}
 	want := entities.Expense{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}}
 
-	repository := StubExpensesRepository{want}
+	repository := StubExpensesRepository{want, []entities.Expense{}}
 	ExpenseService := services.ExpenseService{repository}
 
 	result, err := ExpenseService.CreateExpense(give)
@@ -43,7 +48,7 @@ func TestGetShouldReturnExpense(t *testing.T) {
 	give := "0"
 	want := entities.Expense{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}}
 
-	repository := StubExpensesRepository{want}
+	repository := StubExpensesRepository{want, []entities.Expense{}}
 	ExpenseService := services.ExpenseService{repository}
 
 	result, err := ExpenseService.GetExpense(give)
@@ -54,6 +59,28 @@ func TestGetShouldReturnExpense(t *testing.T) {
 
 	if result.Title != want.Title {
 		t.Errorf("Want '%s' got '%s'", result.Title, want.Title)
+	}
+
+}
+
+func TestGetShouldReturnExpenses(t *testing.T) {
+
+	want := []entities.Expense{
+		{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}},
+		{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}},
+	}
+
+	repository := StubExpensesRepository{entities.Expense{}, want}
+	ExpenseService := services.ExpenseService{repository}
+
+	result, err := ExpenseService.GetExpenses()
+
+	if err != nil {
+		t.Errorf("Error should be nil")
+	}
+
+	if len(result) != len(want) {
+		t.Errorf("Want Length '%d' got '%d'", len(want), len(result))
 	}
 
 }
