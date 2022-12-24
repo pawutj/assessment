@@ -52,11 +52,19 @@ func (suite *ExpenseRepositorySuite) TestCreateExpense() {
 	result, err := suite.repository.CreateExpense(give)
 
 	assert.Nil(suite.T(), err)
-	assert.Greater(suite.T(), 1, want.ID)
 	assert.Equal(suite.T(), result.Title, want.Title)
 	assert.Equal(suite.T(), result.Amount, want.Amount)
 	assert.Equal(suite.T(), result.Note, want.Note)
 	assert.Equal(suite.T(), result.Tags, want.Tags)
+
+}
+
+func (suite *ExpenseRepositorySuite) TestGetExpenses() {
+
+	result, err := suite.repository.GetExpenses()
+
+	assert.Nil(suite.T(), err)
+	assert.Greater(suite.T(), len(result), 1)
 
 }
 

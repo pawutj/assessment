@@ -62,3 +62,28 @@ func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
 	return entities.Expense{Title: title, Amount: amount, Note: note, Tags: tags}, nil
 
 }
+
+func (r ExpenseRepository) GetExpenses() ([]entities.Expense, error) {
+	stmt, err := r.DB.Prepare("SELECT  id, title, amount , note , tags FROM EXPENSE")
+	if err != nil {
+		log.Fatal("can'tprepare query one row statment", err.Error())
+	}
+
+	rows, err := stmt.Query()
+	if err != nil {
+		log.Fatal("can't query all expense: ", err.Error())
+	}
+
+	expenses := []entities.Expense{}
+
+	for rows.Next() {
+		e := entities.Expense{}
+		err := rows.Scan(&e.ID, &e.Title, &e.Amount, &e.Note, pq.Array(&e.Tags))
+		if err != nil {
+			log.Fatal("can't scan expense: ", err.Error())
+		}
+		expenses = append(expenses, e)
+	}
+
+	return expenses, nil
+}
