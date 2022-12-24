@@ -16,12 +16,16 @@ func (s StubExpensesRepository) CreateExpense(e entities.Expense) (entities.Expe
 	return s.Expense, nil
 }
 
-func (s StubExpensesRepository) GetExpense(id string) (entities.Expense, error) {
+func (s StubExpensesRepository) GetExpense(id int) (entities.Expense, error) {
 	return s.Expense, nil
 }
 
 func (s StubExpensesRepository) GetExpenses() ([]entities.Expense, error) {
 	return s.Expenses, nil
+}
+
+func (s StubExpensesRepository) UpdateExpense(id int, e entities.Expense) (entities.Expense, error) {
+	return s.Expense, nil
 }
 
 func TestCreateShouldReturnExpense(t *testing.T) {
@@ -45,7 +49,7 @@ func TestCreateShouldReturnExpense(t *testing.T) {
 
 func TestGetShouldReturnExpense(t *testing.T) {
 
-	give := "0"
+	give := 0
 	want := entities.Expense{Title: "Some Deposit", Amount: 10, Note: "Some Note", Tags: []string{"tag1", "tag2"}}
 
 	repository := StubExpensesRepository{want, []entities.Expense{}}

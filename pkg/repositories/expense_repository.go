@@ -10,9 +10,9 @@ import (
 )
 
 type IExpenseRepository interface {
-	CreateExpense(expenses entities.Expense) (entities.Expense, error)
-	// UpdateExpenses(expenses entities.Expense) (entities.Expense, error)
-	GetExpense(id string) (entities.Expense, error)
+	CreateExpense(expense entities.Expense) (entities.Expense, error)
+	UpdateExpense(id int, expense entities.Expense) (entities.Expense, error)
+	GetExpense(id int) (entities.Expense, error)
 	GetExpenses() ([]entities.Expense, error)
 	// DeleteExpenses(id string) (entities.Expense, error)
 }
@@ -87,4 +87,22 @@ func (r ExpenseRepository) GetExpenses() ([]entities.Expense, error) {
 	}
 
 	return expenses, nil
+}
+
+func (r ExpenseRepository) UpdateExpense(id int, e entities.Expense) (entities.Expense, error) {
+	stmt, err := r.DB.Prepare("UPDATE EXPENSE SET title = $2, amount = $3 , note = $4, tags = $5 WHERE id = $1  RETURNING id,title, amount,note,tags")
+	if err != nil {
+		log.Fatal("can'tprepare query one row statment", err.Error())
+	}
+
+	row := stmt.QueryRow(id, e.Title, e.Amount, e.Note, pq.Array((e.Tags)))
+
+	var result entities.Expense
+	err = row.Scan(&result.ID, &result.Title, &result.Amount, &result.Note, pq.Array(&result.Tags))
+
+	if err != nil {
+		log.Fatal("can'Scan", err.Error())
+	}
+
+	return result, nil
 }

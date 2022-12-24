@@ -7,7 +7,7 @@ import (
 
 type IExpenseService interface {
 	CreateExpense(e entities.Expense) (entities.Expense, error)
-	GetExpense(id string) (entities.Expense, error)
+	GetExpense(id int) (entities.Expense, error)
 	GetExpenses() ([]entities.Expense, error)
 }
 
@@ -24,7 +24,7 @@ func (s ExpenseService) CreateExpense(e entities.Expense) (entities.Expense, err
 	return result, nil
 }
 
-func (s ExpenseService) GetExpense(id string) (entities.Expense, error) {
+func (s ExpenseService) GetExpense(id int) (entities.Expense, error) {
 	result, err := s.ExpenseRepository.GetExpense(id)
 	if err != nil {
 		return entities.Expense{}, err
