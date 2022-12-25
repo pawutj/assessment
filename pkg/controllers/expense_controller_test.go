@@ -1,4 +1,4 @@
-package main
+package controllers
 
 import (
 	"bytes"
@@ -11,7 +11,6 @@ import (
 	"testing"
 
 	"github.com/labstack/echo/v4"
-	"github.com/pawutj/assessment/pkg/controllers"
 	"github.com/pawutj/assessment/pkg/db"
 	"github.com/pawutj/assessment/pkg/entities"
 	"github.com/pawutj/assessment/pkg/repositories"
@@ -26,7 +25,7 @@ type ExpenseIntegralSuite struct {
 }
 
 func (suite *ExpenseIntegralSuite) SetupSuite() {
-	expenseController := controllers.ExpenseController{
+	expenseController := ExpenseController{
 		ExpenseService: services.ExpenseService{
 			ExpenseRepository: repositories.ExpenseRepository{DB: db.ConnectDB()},
 		},
@@ -55,7 +54,7 @@ func (suite *ExpenseIntegralSuite) TestGetExpenseByID() {
 
 	var e entities.Expense
 	res := request(http.MethodGet, uri("expenses", strconv.Itoa(1)), nil)
-	// res := request(http.MethodGet, uri("expenses", "1"), nil)
+
 	err := res.Decode(&e)
 
 	assert.Nil(suite.T(), err)
@@ -68,7 +67,7 @@ func (suite *ExpenseIntegralSuite) TestGetAllExpense() {
 
 	var es []entities.Expense
 	res := request(http.MethodGet, uri("expenses"), nil)
-	// res := request(http.MethodGet, uri("expenses", "1"), nil)
+
 	err := res.Decode(&es)
 
 	assert.Nil(suite.T(), err)
