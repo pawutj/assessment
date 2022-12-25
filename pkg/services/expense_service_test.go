@@ -88,3 +88,28 @@ func TestGetShouldReturnExpenses(t *testing.T) {
 	}
 
 }
+
+func TestUpdateShouldReturnExpense(t *testing.T) {
+	give := entities.Expense{
+		Title: "Update", Amount: 10, Note: "Update", Tags: []string{"tag1"},
+	}
+	id := "2"
+	want := entities.Expense{
+		Title: "Update", Amount: 10, Note: "Update", Tags: []string{"tag1"},
+	}
+
+	repository := StubExpensesRepository{give, []entities.Expense{}}
+	ExpenseService := services.ExpenseService{repository}
+
+	result, err := ExpenseService.UpdateExpense(id, give)
+
+	if err != nil {
+		t.Errorf("Error should be nil")
+
+	}
+
+	if result.Title != want.Title {
+		t.Errorf("Want '%s' got '%s'", result.Title, want.Title)
+	}
+
+}
