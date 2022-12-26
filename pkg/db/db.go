@@ -9,6 +9,18 @@ import (
 	_ "github.com/lib/pq"
 )
 
+func CreateTableWhenNotExists(db *sql.DB) {
+	createTb := `
+	CREATE TABLE IF NOT EXISTS expense (id SERIAL  PRIMARY KEY , title TEXT , amount FLOAT , note TEXT ,tags TEXT[]);
+	`
+	_, err := db.Exec(createTb)
+
+	if err != nil {
+		log.Fatal("can't create table", err)
+	}
+
+}
+
 func ConnectDB() *sql.DB {
 
 	url := os.Getenv("DATABASE_URL")
@@ -19,6 +31,8 @@ func ConnectDB() *sql.DB {
 		log.Fatal(err)
 		return nil
 	}
+
+	CreateTableWhenNotExists(db)
 
 	return db
 }

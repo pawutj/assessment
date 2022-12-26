@@ -59,8 +59,9 @@ func (suite *ExpenseIntegralSuite) TestGetExpenseByID() {
 
 	assert.Nil(suite.T(), err)
 	assert.Equal(suite.T(), http.StatusOK, res.StatusCode)
-	assert.Equal(suite.T(), e.Title, "SomeTitle")
-
+	assert.NotEqual(suite.T(), e.Title, "")
+	assert.NotEqual(suite.T(), e.Note, "")
+	assert.NotEqual(suite.T(), e.Amount, 0)
 }
 
 func (suite *ExpenseIntegralSuite) TestGetAllExpense() {
