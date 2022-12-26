@@ -13,6 +13,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/pawutj/assessment/pkg/db"
 	"github.com/pawutj/assessment/pkg/entities"
+	"github.com/pawutj/assessment/pkg/middleware"
 	"github.com/pawutj/assessment/pkg/repositories"
 	"github.com/pawutj/assessment/pkg/services"
 	"github.com/stretchr/testify/assert"
@@ -34,6 +35,7 @@ func (suite *ExpenseIntegralSuite) SetupSuite() {
 	suite.e = *echo.New()
 
 	go func(e *echo.Echo) {
+		suite.e.Use(middleware.AuthMiddleware)
 		suite.e.GET("/expenses", expenseController.GetExpensesController)
 		suite.e.GET("/expenses/:id", expenseController.GetExpenseController)
 		suite.e.POST("/expenses", expenseController.CreateExpenseController)

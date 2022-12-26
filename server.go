@@ -11,6 +11,7 @@ import (
 	"github.com/labstack/echo/v4"
 	"github.com/pawutj/assessment/pkg/controllers"
 	"github.com/pawutj/assessment/pkg/db"
+	"github.com/pawutj/assessment/pkg/middleware"
 	"github.com/pawutj/assessment/pkg/repositories"
 	"github.com/pawutj/assessment/pkg/services"
 )
@@ -26,6 +27,7 @@ func main() {
 	}
 
 	e := echo.New()
+	e.Use(middleware.AuthMiddleware)
 	e.GET("/expenses", expenseController.GetExpensesController)
 	e.GET("/expenses/:id", expenseController.GetExpenseController)
 	e.POST("/expenses", expenseController.CreateExpenseController)
