@@ -14,7 +14,6 @@ type IExpenseRepository interface {
 	UpdateExpense(id string, expense entities.Expense) (entities.Expense, error)
 	GetExpense(id string) (entities.Expense, error)
 	GetExpenses() ([]entities.Expense, error)
-	// DeleteExpenses(id string) (entities.Expense, error)
 }
 
 type ExpenseRepository struct {
@@ -57,7 +56,7 @@ func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
 	err = row.Scan(&_id, &title, &amount, &note, pq.Array(&tags))
 
 	if err != nil {
-		log.Fatal("can't Scan row into variables", err)
+		return entities.Expense{}, err
 	}
 
 	return entities.Expense{Title: title, Amount: amount, Note: note, Tags: tags}, nil
@@ -67,12 +66,12 @@ func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
 func (r ExpenseRepository) GetExpenses() ([]entities.Expense, error) {
 	stmt, err := r.DB.Prepare("SELECT  id, title, amount , note , tags FROM EXPENSE")
 	if err != nil {
-		log.Fatal("can'tprepare query one row statment", err.Error())
+		return []entities.Expense{}, err
 	}
 
 	rows, err := stmt.Query()
 	if err != nil {
-		log.Fatal("can't query all expense: ", err.Error())
+		return []entities.Expense{}, err
 	}
 
 	expenses := []entities.Expense{}
@@ -81,7 +80,7 @@ func (r ExpenseRepository) GetExpenses() ([]entities.Expense, error) {
 		e := entities.Expense{}
 		err := rows.Scan(&e.ID, &e.Title, &e.Amount, &e.Note, pq.Array(&e.Tags))
 		if err != nil {
-			log.Fatal("can't scan expense: ", err.Error())
+			return []entities.Expense{}, err
 		}
 		expenses = append(expenses, e)
 	}
@@ -101,7 +100,7 @@ func (r ExpenseRepository) UpdateExpense(id string, e entities.Expense) (entitie
 	err = row.Scan(&result.ID, &result.Title, &result.Amount, &result.Note, pq.Array(&result.Tags))
 
 	if err != nil {
-		log.Fatal("can'Scan", err.Error())
+		return entities.Expense{}, err
 	}
 
 	return result, nil

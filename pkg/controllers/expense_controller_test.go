@@ -91,7 +91,7 @@ func (suite *ExpenseIntegralSuite) TestPostExpense() {
 	err := res.Decode(&e)
 
 	assert.Nil(suite.T(), err)
-	assert.Equal(suite.T(), http.StatusOK, res.StatusCode)
+	assert.Equal(suite.T(), http.StatusCreated, res.StatusCode)
 	assert.Equal(suite.T(), e.Title, "SomeTitle")
 
 }
