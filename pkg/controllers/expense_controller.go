@@ -28,7 +28,7 @@ func (c ExpenseController) CreateExpenseController(context echo.Context) error {
 		return context.JSON(http.StatusInternalServerError, Err{Message: err.Error()})
 	}
 
-	return context.JSON(http.StatusOK, result)
+	return context.JSON(http.StatusCreated, result)
 }
 
 func (c ExpenseController) GetExpenseController(context echo.Context) error {
@@ -36,7 +36,7 @@ func (c ExpenseController) GetExpenseController(context echo.Context) error {
 
 	result, _ := c.ExpenseService.GetExpense(id)
 
-	return context.JSON(http.StatusOK, result)
+	return context.JSON(http.Status, result)
 }
 
 func (c ExpenseController) GetExpensesController(context echo.Context) error {
