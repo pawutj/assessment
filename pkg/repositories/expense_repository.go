@@ -59,7 +59,7 @@ func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
 		return entities.Expense{}, err
 	}
 
-	return entities.Expense{Title: title, Amount: amount, Note: note, Tags: tags}, nil
+	return entities.Expense{ID: _id, Title: title, Amount: amount, Note: note, Tags: tags}, nil
 
 }
 
