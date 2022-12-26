@@ -39,6 +39,13 @@ func (suite *ExpenseRepositorySuite) TestGetExpense() {
 
 }
 
+func (suite *ExpenseRepositorySuite) TestGetExpensesIfParamIsEmpty() {
+	give := ""
+	_, err := suite.repository.GetExpense(give)
+	assert.NotNil(suite.T(), err)
+
+}
+
 func (suite *ExpenseRepositorySuite) TestCreateExpense() {
 
 	give := entities.Expense{Title: "SomeTitle", Amount: 20.0, Note: "SomeNote", Tags: []string{"tags1"}}
@@ -67,6 +74,13 @@ func (suite *ExpenseRepositorySuite) TestUpdateExpense() {
 	assert.Equal(suite.T(), result.Note, want.Note)
 	assert.Equal(suite.T(), result.Tags, want.Tags)
 
+}
+
+func (suite *ExpenseRepositorySuite) TestUpdateExpenseIfParamIsEmpty() {
+	id := ""
+	_, err := suite.repository.UpdateExpense(id, entities.Expense{})
+
+	assert.NotNil(suite.T(), err)
 }
 
 func (suite *ExpenseRepositorySuite) TestGetExpenses() {

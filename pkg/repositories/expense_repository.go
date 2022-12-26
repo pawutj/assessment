@@ -2,7 +2,6 @@ package repositories
 
 import (
 	"database/sql"
-	"log"
 
 	"github.com/lib/pq"
 
@@ -42,7 +41,7 @@ func (r ExpenseRepository) GetExpense(id string) (entities.Expense, error) {
 	stmt, err := r.DB.Prepare("SELECT id, title, amount , note , tags FROM EXPENSE where id=$1")
 
 	if err != nil {
-		log.Fatal("can'tprepare query one row statment", err)
+		return entities.Expense{}, err
 	}
 
 	rowId := id
@@ -91,7 +90,7 @@ func (r ExpenseRepository) GetExpenses() ([]entities.Expense, error) {
 func (r ExpenseRepository) UpdateExpense(id string, e entities.Expense) (entities.Expense, error) {
 	stmt, err := r.DB.Prepare("UPDATE EXPENSE SET title = $2, amount = $3 , note = $4, tags = $5 WHERE id = $1  RETURNING id,title, amount,note,tags")
 	if err != nil {
-		log.Fatal("can'tprepare query one row statment", err.Error())
+		return entities.Expense{}, err
 	}
 
 	row := stmt.QueryRow(id, e.Title, e.Amount, e.Note, pq.Array((e.Tags)))
