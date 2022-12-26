@@ -129,7 +129,7 @@ func (r *Response) Decode(v interface{}) error {
 }
 
 func uri(paths ...string) string {
-	host := "http://localhost:2565"
+	host := "http://localhost:" + os.Getenv("PORT")
 	if paths == nil {
 		return host
 	}

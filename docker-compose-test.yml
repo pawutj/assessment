@@ -8,9 +8,9 @@ services:
     volumes:
       - .:/app
     depends_on:
-      - db
+      - test_db
 
-  db:
+  test_db:
     image: postgres:14.1-alpine
     restart: always
     environment:
