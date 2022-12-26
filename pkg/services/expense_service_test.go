@@ -5,6 +5,7 @@ import (
 
 	"github.com/pawutj/assessment/pkg/entities"
 	"github.com/pawutj/assessment/pkg/services"
+	"github.com/stretchr/testify/assert"
 )
 
 type StubExpensesRepository struct {
@@ -37,13 +38,8 @@ func TestCreateShouldReturnExpense(t *testing.T) {
 
 	result, err := ExpenseService.CreateExpense(give)
 
-	if err != nil {
-		t.Errorf("Error should be nil")
-	}
-
-	if result.Title != want.Title {
-		t.Errorf("Want '%s' got '%s'", result.Title, want.Title)
-	}
+	assert.Nil(t, err)
+	assert.EqualValues(t, want, result)
 
 }
 
@@ -57,13 +53,8 @@ func TestGetShouldReturnExpense(t *testing.T) {
 
 	result, err := ExpenseService.GetExpense(give)
 
-	if err != nil {
-		t.Errorf("Error should be nil")
-	}
-
-	if result.Title != want.Title {
-		t.Errorf("Want '%s' got '%s'", result.Title, want.Title)
-	}
+	assert.Nil(t, err)
+	assert.EqualValues(t, want, result)
 
 }
 
@@ -79,13 +70,8 @@ func TestGetShouldReturnExpenses(t *testing.T) {
 
 	result, err := ExpenseService.GetExpenses()
 
-	if err != nil {
-		t.Errorf("Error should be nil")
-	}
-
-	if len(result) != len(want) {
-		t.Errorf("Want Length '%d' got '%d'", len(want), len(result))
-	}
+	assert.Nil(t, err)
+	assert.EqualValues(t, want, result)
 
 }
 
@@ -102,14 +88,6 @@ func TestUpdateShouldReturnExpense(t *testing.T) {
 	ExpenseService := services.ExpenseService{repository}
 
 	result, err := ExpenseService.UpdateExpense(id, give)
-
-	if err != nil {
-		t.Errorf("Error should be nil")
-
-	}
-
-	if result.Title != want.Title {
-		t.Errorf("Want '%s' got '%s'", result.Title, want.Title)
-	}
-
+	assert.Nil(t, err)
+	assert.Equal(t, want, result)
 }
