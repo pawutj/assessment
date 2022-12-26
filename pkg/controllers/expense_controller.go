@@ -45,13 +45,27 @@ func (c ExpenseController) GetExpensesController(context echo.Context) error {
 	return context.JSON(http.StatusOK, result)
 }
 
+type RequestExpense struct {
+	Title  string   `json:"title"`
+	Amount float64  `json:"amount"`
+	Note   string   `json:"note"`
+	Tags   []string `json:"tags"`
+}
+
 func (c ExpenseController) UpdateExpenseController(context echo.Context) error {
 	id := context.Param("id")
-	e := entities.Expense{}
-	err := context.Bind(&e)
+	requestExpense := RequestExpense{}
+	err := context.Bind(&requestExpense)
 	if err != nil {
 		return context.JSON(http.StatusBadRequest, Err{Message: err.Error()})
 	}
+	e := entities.Expense{
+		Title:  requestExpense.Title,
+		Amount: requestExpense.Amount,
+		Note:   requestExpense.Note,
+		Tags:   requestExpense.Tags,
+	}
+
 	result, _ := c.ExpenseService.UpdateExpense(id, e)
 
 	return context.JSON(http.StatusOK, result)
