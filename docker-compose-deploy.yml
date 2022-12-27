@@ -1,0 +1,32 @@
+version: "3.3"
+
+services:
+  go_server_deploy:
+    build:
+      context: .
+      dockerfile: ./Dockerfile.deploy
+    ports:
+      - "2565:2565"
+    environment:
+      - DATABASE_URL=postgres://root:root@deploy_db:5432/go-example-db?sslmode=disable
+      - PORT=2565
+      - CGO_ENABLED=0
+    expose:
+      - 2565
+    depends_on:
+      - deploy_db
+
+  deploy_db:
+    image: postgres:14.1-alpine
+    restart: always
+    environment:
+      - POSTGRES_USER=root
+      - POSTGRES_PASSWORD=root
+      - POSTGRES_DB=go-example-db
+    ports:
+      - "5432:5432"
+    expose:
+      - 5432
+    volumes:
+      - ./pkg/db:/docker-entrypoint-initdb.d
+    command: -p 5432
