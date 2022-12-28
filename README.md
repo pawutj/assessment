@@ -1,3 +1,26 @@
+# Command 
+### Run Dev
+	docker-compose -f docker-compose-dev.yml up --abort-on-container-exit  --exit-code-from go_server_dev
+
+### Run Test Sandbox
+	docker-compose -f docker-compose-test.yml up --exit-code-from test_sandbox
+
+### Run Deploy
+	docker-compose -f docker-compose-deploy.yml up --abort-on-container-exit  --exit-code-from go_server_deploy
+	
+# อธิบาย
+* ทดสอบ Postman โดยการรัน Dev หรือ Deploy ก่อน
+* ใช้ Repository Pattern 
+* Controller สำหรับ Handler , Service สำหรับ Business Logic , Repository สำหรับ ติดต่อกับ Database
+* Controller , Repository ใช้การ Test แบบ Integral Test (ต่อกับ DB จริง สำหรับ  Test Sandbox)
+* Service ใช้การ Test แบบ Unit Test โดยใช้เทคนิค Stub , Dummy 
+
+# ภาพประกอบ
+
+![image](https://user-images.githubusercontent.com/13941506/209864578-4d66e6f8-e1f6-4950-81dc-b08efd3ddffa.png)
+![image](https://user-images.githubusercontent.com/13941506/209864701-88711fe4-c29e-43cc-b4a9-e7afc1d33a50.png)
+
+
 # Prerequisites
 * โปรเจคตั้งต้นคือ[โปรเจคนี้](https://github.com/KKGo-Software-engineering/assessment)
 * กำหนดให้ส่งลิ้งค์คำตอบคือ github repository ที่เก็บโค้ดของคุณ `https://github.com/<your github name>/assessment`
