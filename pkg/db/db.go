@@ -16,7 +16,7 @@ func CreateTableWhenNotExists(db *sql.DB) {
 	_, err := db.Exec(createTb)
 
 	if err != nil {
-		log.Fatal("can't create table", err)
+		fmt.Printf("cant create table")
 	}
 
 }
@@ -32,7 +32,7 @@ func ConnectDB() *sql.DB {
 		return nil
 	}
 
-	CreateTableWhenNotExists(db)
+	// CreateTableWhenNotExists(db)
 
 	return db
 }
